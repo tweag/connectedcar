@@ -1,36 +1,14 @@
 
 # Connected Car Challenge
 
-This text aims to briefly describe the analysis of the sample data designed for the _Connected Car Challenge_. You can obtain the data from [here](https://drive.google.com/file/d/1XIRQkLfjzRjmeDSB8zOmyuJn_C6R62ni/) and the webpage of the challenge [here](http://occ-challenge.strikingly.com/).
-
+This text aims to briefly describe the analysis of the sample data designed for the _Connected Car Challenge_. You can look at the web page of the challenge from  [here](http://occ-challenge.strikingly.com/) and obtain the sample data from [here](https://drive.google.com/file/d/1XIRQkLfjzRjmeDSB8zOmyuJn_C6R62ni/).
 
 ## Cleaning the data
 
-As the first step towards the understanding the data we made it as something we can read and plot from. As a first try to look at the data, you would obtain something a bit mysterious: 
+As a first step towards understanding the data, we changed it so that we can read values and plot figures from it. Because in the first try, we obtain the following from the head of the data:
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>a</th>
-      <th>b</th>
-      <th>c</th>
-    </tr>
-  </thead>
   <tbody>
     <tr>
       <th>0</th>
@@ -67,7 +45,9 @@ As the first step towards the understanding the data we made it as something we 
 </div>
 
 
-As you can see the data is not meaningful yet. We guesssed that the first columns corresponds to the time steps the CAN recieve the data, . The third column corresponds to two parts, the one before `#` and the one after. The number (in hexadecimal base) before `#` is the id of the measurement (e.g. temperature, acceleration) and the other one corresponds to the value of the measurement. We seperated the data into different groups by using of the ids of measurements. We dropped then the ids that are (alsmot) constant. The total number of ids were 268 whilst there were 105 of them with significant information (variation).
+The first columns corresponds to the time steps the CAN buses send the samples. The third column corresponds to two parts, the one before `#` and the one after `#`. The number before `#` is the _id_ of the measurement (e.g. temperature, acceleration, turbulence) and the next number corresponds to the value of the measurement. Both numbers are in hexadecimal base.
+
+We cleaned the data and separated it into different groups by using of the ids of measurements. We dropped the ids that are (almost) constant. The total number of ids were 268 whilst there were 105 of them with significant information (variations).
 
 We plotted all signals and obtained the following figure:
 
@@ -82,4 +62,4 @@ There are a few things we have to notice here:
 
 2. Some of the signals are just a slight shift (in time) of each other.
 
-3. There are a very highly oscilating signals. We should put a low-pass filter to take a better picture about their evolution.
+3. There are a very highly oscillating signals. We should put a low-pass filter to take a better picture about their evolution.
