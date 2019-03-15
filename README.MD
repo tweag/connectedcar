@@ -1,11 +1,13 @@
 
 # Connected Car Challenge
 
-This text aims to briefly describe the analysis of the sample data designed for the _Connected Car Challenge_. You can look at the web page of the challenge from  [here](http://occ-challenge.strikingly.com/) and obtain the sample data from [here](https://drive.google.com/file/d/1XIRQkLfjzRjmeDSB8zOmyuJn_C6R62ni/).
+This text aims to briefly describe the analysis of the sample data designed for the _Connected Car Challenge_. You can look at the web page of the challenge from  [here](http://occ-challenge.strikingly.com/) and obtain the sample data from [here](https://drive.google.com/file/d/1XIRQkLfjzRjmeDSB8zOmyuJn_C6R62ni/). The sample data sent by _CAN buses_; for obtaining an intuition, look at [this](https://www.csselectronics.com/screen/page/reverse-engineering-can-bus-messages-with-wireshark/language/en). 
 
 ## Cleaning the data
 
-As a first step towards understanding the data, we changed it so that we can read values and plot figures from it. Because in the first try, we obtain the following from the head of the data:
+As a first step towards understanding the data, we changed it so that we can read values and plot figures from it.
+
+In the first try, we obtain the following from the head of the data:
 
 <div>
 <table border="1" class="dataframe">
