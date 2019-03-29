@@ -60,3 +60,12 @@ Notice that:
 2. Some of the signals are just a slight shift (in time) of each other.
 
 3. There are highly oscillating signals. We should put a low-pass filter on them to get a better picture about their evolution.
+
+
+## MangOH, Legato and AirVantage
+
+We have received a package of an IoT device called [MangOH](https://mangoh.io/). This device can connect to mobile network through a sim card. In our case, we have a sim from [Sierra Wireless](https://www.sierrawireless.com/) that enjoys from a coupled API called [AirVantage](https://www.sierrawireless.com/products-and-solutions/sims-connectivity-and-cloud-services/iot-cloud-platform/). Through this API we can continuously track the data concerning the sensors attached to the target device. Our MangOH was equipped with sensors showing GPS coordinates, light intensity, temperature, pressure, 3 directional accelerations and angular momentum (through a gyroscope). As an example, you can see in the following some sensors data that are received from our MangOH:
+
+<img src="AirVantage.png"
+     alt=" "
+     style="float: center; margin-right: 10px;" />
