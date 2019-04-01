@@ -1,6 +1,6 @@
 ## SMS sender
 
-We could write a simple application that sends a sms test message to a number given in the application.
+This simple application sends a sms test message to a number precised in the code.
 You can execute the application as follows:
 
 For installation in MangOH and its execution, move to this directory then run the following in command line while the MangOH is connected:
