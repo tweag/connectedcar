@@ -1,0 +1,12 @@
+requires:
+{
+    api:
+    {
+        modemServices/le_sms.api
+    }
+}
+
+sources:
+{
+    main.c
+}

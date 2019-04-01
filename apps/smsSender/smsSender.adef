@@ -1,0 +1,17 @@
+executables:
+{
+    sms = ( smsSenderComp )
+}
+
+processes:
+{
+    run:
+    {
+        ( sms )
+    }
+}
+
+bindings:
+{
+    sms.smsSenderComp.le_sms -> modemService.le_sms
+}
