@@ -1,0 +1,18 @@
+executables:
+{
+    sensorSMS = ( sensorComp )
+}
+
+processes:
+{
+    run:
+    {
+        ( sensorSMS )
+    }
+}
+
+bindings:
+{
+    sensorSMS.sensorComp.le_sms  -> modemService.le_sms
+    sensorSMS.sensorComp.le_pos  -> positioningService.le_pos
+}

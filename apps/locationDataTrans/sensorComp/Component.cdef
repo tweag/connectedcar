@@ -1,0 +1,13 @@
+requires:
+{
+    api:
+    {
+        modemServices/le_sms.api
+        positioning/le_pos.api
+    }
+}
+
+sources:
+{
+    main.c
+}
