@@ -91,7 +91,7 @@ COMPONENT_INIT
         sprintf(aString,"%f", a);
         strcpy (text , "Hello from Tweag :) . A drastic accelaration is detected, be careful!\nHere is the counter number: ");
         strcat (text , counterString );
-        strcat (text , "\nAccelation is: " );
+        strcat (text , "\nAcceleration is: " );
         strcat (text , aString );
 
         send_message (destination , text);
