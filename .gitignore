@@ -1,4 +1,5 @@
 candump-2017-06-20_022638
 BlockChainExamples.ipynb
 .ipynb_checkpoints/
-
+__pychache__/
+*.pyc
