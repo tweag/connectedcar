@@ -1,14 +1,50 @@
 #include "legato.h"
 #include "interfaces.h"
+#include <curl/curl.h>
 
-
+static const char Url[] = "http://192.168.2.3:5000";
 static const char FormatStr[] = "/sys/devices/i2c-0/0-0068/iio:device0/in_%s_%s";
 static const char AccType[]   = "accel";
 static const char CompX[]     = "x_raw";
 static const char CompY[]     = "y_raw";
 static const char CompZ[]     = "z_raw";
+static const char destination[] = "0695162402";
 
 
+void send_message (char *text)
+{
+  le_sms_MsgRef_t myMsg = le_sms_Create();
+  le_sms_SetDestination(myMsg, destination);
+  le_sms_SetText(myMsg, text);
+  le_sms_Send(myMsg);
+  le_sms_Delete(myMsg);
+}
+
+
+
+// Curl part
+static void PostUrl(char *jsonString)
+{
+
+  send_message(jsonString);
+
+  CURL *curl = curl_easy_init();
+
+  struct curl_slist *hs=NULL;
+  hs = curl_slist_append(hs, "Content-Type: application/json");
+  curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hs);
+
+
+    if (curl)
+  {
+      curl_easy_setopt(curl, CURLOPT_URL, Url);
+      curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonString);
+      curl_easy_perform(curl);
+      curl_easy_cleanup(curl);
+  }
+}
+
+// Accelration part
 le_result_t ReadDoubleFromFile
 (
     const char *filePath,
@@ -52,14 +88,6 @@ void mangOH_ReadAccelSensor(double *xAcc,double *yAcc,double *zAcc)
 }
 
 
-void send_message (char *destination , char *text)
-{
-  le_sms_MsgRef_t myMsg = le_sms_Create();
-  le_sms_SetDestination(myMsg, destination);
-  le_sms_SetText(myMsg, text);
-  le_sms_Send(myMsg);
-  le_sms_Delete(myMsg);
-}
 
 
 COMPONENT_INIT
@@ -67,15 +95,22 @@ COMPONENT_INIT
 
   double accX; double accY; double accZ;
   double *accXPtr = &accX; double *accYPtr = &accY; double *accZPtr = &accZ;
-  double a; char aString[10];
+  double a = 0.0;
+  //char aString[10];
 
   double accidentThresh = 30 * 1000;
 
   double timeoutInSeconds = 3;
 
-  char destination[] = "0695162402";
-  char text[1000];
-  int counter = 0; char counterString[10];
+  char jsonString[1000];
+  int counter = 0;
+  //char counterString[10];
+
+  sprintf(jsonString,"{ \"acceleratoin\" :  %f , \"counter\" :  %d }", a , counter++);
+  PostUrl(jsonString);
+
+  sprintf(jsonString,"{ \"acceleratoin\" :  %f , \"counter\" :  %d }", a , counter);
+  PostUrl(jsonString);
 
   time_t startTime = time(NULL);
 
@@ -87,14 +122,17 @@ COMPONENT_INIT
       a = pow ( pow(accX,2) + pow(accY,2) + pow(accZ,2) , 0.5 );
       if (a > accidentThresh)
       {
-        sprintf(counterString,"%d", counter);
-        sprintf(aString,"%f", a);
-        strcpy (text , "Hello from Tweag :) . A drastic accelaration is detected, be careful!\nHere is the counter number: ");
-        strcat (text , counterString );
-        strcat (text , "\nAcceleration is: " );
-        strcat (text , aString );
+        // sprintf(counterString,"%d", counter);
+        // sprintf(aString,"%f", a);
+        // strcpy (jsonString , "{ \"acceleratoin\" : ");
+        // strcat (jsonString , aString );
+        // strcat (jsonString , " , \"counter\" : ");
+        // strcat (jsonString , counterString );
+        // strcat (jsonString , " }");
 
-        send_message (destination , text);
+        sprintf(jsonString,"{ \"acceleratoin\" :  %f , \"counter\" :  %d }", a , counter);
+        PostUrl(jsonString);
+
         counter++;
         startTime = time(NULL);
       }
