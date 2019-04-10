@@ -3,7 +3,7 @@ This application log the data concerning a drastic acceleration to our server. H
 ### Server Side
 We wrote our server application side using [flask](http://flask.pocoo.org/). Make sure to follow these steps in your terminal to run the server:
 ```
-$ export FLASK_APP=myserver.py`
+$ export FLASK_APP=myServer.py`
 $ python -m flask run --host=0.0.0.0
 ```
 We recall that the local IP `0.0.0.0` is accessible from outside devices.
