@@ -8,17 +8,17 @@ static const char AccType[]   = "accel";
 static const char CompX[]     = "x_raw";
 static const char CompY[]     = "y_raw";
 static const char CompZ[]     = "z_raw";
-static const char destination[] = "0695162402";
+// static const char destination[] = "0695162402";
 
 
-void send_message (char *text)
-{
-  le_sms_MsgRef_t myMsg = le_sms_Create();
-  le_sms_SetDestination(myMsg, destination);
-  le_sms_SetText(myMsg, text);
-  le_sms_Send(myMsg);
-  le_sms_Delete(myMsg);
-}
+// void send_message (char *text)
+// {
+//   le_sms_MsgRef_t myMsg = le_sms_Create();
+//   le_sms_SetDestination(myMsg, destination);
+//   le_sms_SetText(myMsg, text);
+//   le_sms_Send(myMsg);
+//   le_sms_Delete(myMsg);
+// }
 
 
 
@@ -26,7 +26,7 @@ void send_message (char *text)
 static void PostUrl(char *jsonString)
 {
 
-  send_message(jsonString);
+  // send_message(jsonString);
 
   CURL *curl = curl_easy_init();
 
@@ -87,30 +87,22 @@ void mangOH_ReadAccelSensor(double *xAcc,double *yAcc,double *zAcc)
 
 }
 
-
-
-
 COMPONENT_INIT
 {
+
+  int32_t latitude; int32_t longitude; int32_t horizontalAccuracy;
+  int32_t *latitudePtr = &latitude; int32_t *longitudePtr = &longitude; int32_t *horizontalAccuracyPtr = &horizontalAccuracy;
 
   double accX; double accY; double accZ;
   double *accXPtr = &accX; double *accYPtr = &accY; double *accZPtr = &accZ;
   double a = 0.0;
-  //char aString[10];
 
   double accidentThresh = 30 * 1000;
 
-  double timeoutInSeconds = 3;
+  double timeoutInSeconds = 1;
 
   char jsonString[1000];
   int counter = 0;
-  //char counterString[10];
-
-  sprintf(jsonString,"{ \"acceleratoin\" :  %f , \"counter\" :  %d }", a , counter++);
-  PostUrl(jsonString);
-
-  sprintf(jsonString,"{ \"acceleratoin\" :  %f , \"counter\" :  %d }", a , counter);
-  PostUrl(jsonString);
 
   time_t startTime = time(NULL);
 
@@ -122,15 +114,8 @@ COMPONENT_INIT
       a = pow ( pow(accX,2) + pow(accY,2) + pow(accZ,2) , 0.5 );
       if (a > accidentThresh)
       {
-        // sprintf(counterString,"%d", counter);
-        // sprintf(aString,"%f", a);
-        // strcpy (jsonString , "{ \"acceleratoin\" : ");
-        // strcat (jsonString , aString );
-        // strcat (jsonString , " , \"counter\" : ");
-        // strcat (jsonString , counterString );
-        // strcat (jsonString , " }");
-
-        sprintf(jsonString,"{ \"acceleratoin\" :  %f , \"counter\" :  %d }", a , counter);
+        le_pos_Get2DLocation(latitudePtr, longitudePtr, horizontalAccuracyPtr);
+        sprintf(jsonString,"{ \"counter\" :  %d , \"acceleration\" :  %f , \"latitude\" :  %f , \"longitude\" :  %f }",counter , a , (double)latitude *0.00000001 , (double)longitude *0.00000001);
         PostUrl(jsonString);
 
         counter++;
