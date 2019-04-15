@@ -3,3 +3,5 @@ BlockChainExamples.ipynb
 .ipynb_checkpoints/
 __pychache__/
 *.pyc
+*.update
+_build_*
