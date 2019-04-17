@@ -6,7 +6,7 @@ from web3.contract import ConciseContract
 
 app = Flask(__name__)
 
-PERSONS = [b'Driver1', b'Driver2', b'Police']
+PERSONS = [b'Car', b'Witness', b'Police']
 
 http_provider = HTTPProvider('http://localhost:8545')
 eth_provider = Web3(http_provider).eth
@@ -58,7 +58,7 @@ def index():
         try:
             contract_instance.agreeByPerson(person_name_bytes, transact=transaction_details)
         except ValueError:
-            alert = f'{person_name} is not a voting option!'
+            alert = f'{person_name} is not a valid person in the current accident!'
 
     person_names = contract_instance.getPersonList()
     persons = {}
