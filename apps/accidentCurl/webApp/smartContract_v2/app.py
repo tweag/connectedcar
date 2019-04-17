@@ -61,8 +61,23 @@ def index():
             outfile.write (json.dumps(oldData))
 
     with open (DATA_FILENAME) as outfile:
-        oldData = json.load(outfile)
-    return render_template('homePage.html', hashes = oldData )
+        hashes = json.load(outfile)
+
+    isFinalisedList = {}
+    
+    for hash in hashes :
+        contract_instance = eth_provider.contract(
+            abi=contract_abi,
+            address=hash,
+            ContractFactoryClass=ConciseContract,
+        )
+
+        if contract_instance.isFinalised():
+            isFinalisedList[hash] = "YES"
+        else:
+            isFinalisedList[hash] = "NO"
+
+    return render_template('homePage.html', hashes = hashes , isFinalisedList = isFinalisedList )
 
 
 # For every contract there is a page that sets the values:
@@ -75,6 +90,7 @@ def accidentSetter(contractHash):
         allHashes = json.load(outfile)
     if ( not contractHash in allHashes):
         return "The hash " + contractHash + " is not valid"
+
 
     contract_instance = eth_provider.contract(
         abi=contract_abi,
@@ -101,11 +117,11 @@ def accidentSetter(contractHash):
         persons[person_name_string] = note_for_person
 
     if contract_instance.isFinalised():
-        persons['Finalised'] = "YES"
+        isFinalised = "YES"
     else:
-        persons['Finalised'] = "NO"
+        isFinalised = "NO"
 
-    return render_template('index.html', persons=persons, contractHash = contractHash , alert=alert)
+    return render_template('index.html', persons=persons, contractHash = contractHash , isFinalised = isFinalised , alert=alert)
 
 if __name__ == '__main__':
     # app.run(debug=True, use_reloader=False)
