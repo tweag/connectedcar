@@ -13,6 +13,12 @@ eth_provider = Web3(http_provider).eth
 default_account = eth_provider.accounts[0]
 transaction_details = {'from': default_account,}
 
+# # For knowing how much money is left from this account, we should try as follows:
+# balance = eth_provider.getBalance(default_account)
+# Web3.fromWei(balance , 'ether')
+# # The gives for example an outcome of form Decimal('99.85705776')
+
+
 with open('accident.sol') as file:
     source_code = file.readlines()
 
@@ -64,7 +70,7 @@ def index():
         hashes = json.load(outfile)
 
     isFinalisedList = {}
-    
+
     for hash in hashes :
         contract_instance = eth_provider.contract(
             abi=contract_abi,
