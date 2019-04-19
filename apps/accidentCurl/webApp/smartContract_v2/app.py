@@ -33,8 +33,8 @@ contract_factory = eth_provider.contract(
 
 participant = [b'Car', b'Witness', b'Police']
 
-def accidentContract(participant , counterValue , accelerationValue):
-    contract_constructor = contract_factory.constructor( participant , counterValue , accelerationValue)
+def accidentContract(participant , counterValue , accelerationValue  , latitudeValue , longitudeValue):
+    contract_constructor = contract_factory.constructor( participant , counterValue , accelerationValue , latitudeValue , longitudeValue)
     transaction_hash = contract_constructor.transact(transaction_details)
     transaction_receipt = eth_provider.getTransactionReceipt(transaction_hash)
     contract_address = transaction_receipt['contractAddress']
@@ -58,7 +58,9 @@ def index():
     if request.method == 'POST' and data :
         counterValue = data['counter']
         accelerationValue = data['acceleration']
-        contract_address = accidentContract(participant , counterValue , accelerationValue)
+        latitudeValue = data['latitude']
+        longitudeValue = data['longitude']
+        contract_address = accidentContract(participant , counterValue , accelerationValue , latitudeValue , longitudeValue)
 
         with open (DATA_FILENAME) as outfile:
             oldData = json.load(outfile)
@@ -104,6 +106,9 @@ def accidentSetter(contractHash):
         ContractFactoryClass=ConciseContract,
     )
 
+    latitude = contract_instance.getLatitude()
+    longitude = contract_instance.getLongitude()
+
     alert = ''
     person_name = request.form.get('person'+contractHash)
 
@@ -127,7 +132,7 @@ def accidentSetter(contractHash):
     else:
         isFinalised = "NO"
 
-    return render_template('index.html', persons=persons, contractHash = contractHash , isFinalised = isFinalised , alert=alert)
+    return render_template('index.html', persons=persons, contractHash = contractHash , isFinalised = isFinalised , alert=alert , latitude = latitude*0.00000001 , longitude = longitude*0.00000001)
 
 if __name__ == '__main__':
     # app.run(debug=True, use_reloader=False)

@@ -20,15 +20,31 @@
 
         <div class="row">
             <div class="col">
-                <h5> Contract hash is {{ contractHash }} </h5>
-                <h5> Finalised: {{ isFinalised }}</h5>
-                {% if alert %}
-                    <div class="alert alert-warning">
-                        {{ alert }}
-                    </div>
-                {% endif %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>Contract Hash</td>
+                                <td>{{ contractHash }}</td>
+                            </tr>
+                            <tr>
+                                <td>Latitude</td>
+                                <td>{{ latitude }}</td>
+                            </tr>
+                            <tr>
+                                <td>Longitude</td>
+                                <td>{{ longitude }}</td>
+                            </tr>
+                            <tr>
+                                <td>Finalised</td>
+                                <td>{{ isFinalised }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
 
         <div class="row">
             <div class="col">

@@ -115,7 +115,7 @@ COMPONENT_INIT
       if (a > accidentThresh)
       {
         le_pos_Get2DLocation(latitudePtr, longitudePtr, horizontalAccuracyPtr);
-        sprintf(jsonString,"{ \"counter\" :  %d , \"acceleration\" :  %f , \"latitude\" :  %f , \"longitude\" :  %f }",counter , a , (double)latitude *0.00000001 , (double)longitude *0.00000001);
+        sprintf(jsonString,"{ \"counter\" :  %d , \"acceleration\" :  %d , \"latitude\" :  %d , \"longitude\" :  %d }",counter , (int)a , latitude , longitude );
         PostUrl(jsonString);
 
         counter++;

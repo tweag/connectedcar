@@ -6,7 +6,6 @@ To run this application follow these steps:
 $ export FLASK_DEBUG=1
 $ export FLASK_APP="app.py"
 $ python -m flask run --host=0.0.0.0
-$ python app.py
 ```
 3. Open a web browser (e.g. Chrome) on port http://localhost:5000.
 

@@ -7,6 +7,8 @@ contract accident {
   struct accidentType{
       uint counter;
       uint acceleration;
+      uint latitude;
+      uint longitude;
   }
 
   mapping (bytes32 => string) public notesReceived;
@@ -14,10 +16,12 @@ contract accident {
   accidentType accidentInfo;
   bytes32[] public personList;
 
-  constructor(bytes32[] personNames , uint counterValue , uint accelerationValue) public {
+  constructor(bytes32[] personNames , uint counterValue , uint accelerationValue , uint latitudeValue , uint longitudeValue) public {
       personList = personNames;
       accidentInfo.counter = counterValue;
       accidentInfo.acceleration = accelerationValue;
+      accidentInfo.latitude = latitudeValue;
+      accidentInfo.longitude = longitudeValue;
       for(uint i = 0; i < personList.length; i++) {
         notesReceived[ personList[i] ] = "NOT AGREE";
       }
@@ -25,6 +29,14 @@ contract accident {
 
   function getPersonList() public view returns (bytes32[]) {
     return personList;
+  }
+
+  function getLatitude() public view returns (uint) {
+    return accidentInfo.latitude;
+  }
+
+  function getLongitude() public view returns (uint) {
+    return accidentInfo.longitude;
   }
 
   function validPerson(bytes32 person) public view returns (bool) {
