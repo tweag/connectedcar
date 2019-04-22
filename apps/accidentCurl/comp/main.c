@@ -1,8 +1,11 @@
 #include "legato.h"
 #include "interfaces.h"
+#include "le_data_interface.h"
 #include <curl/curl.h>
 
-static const char Url[] = "http://192.168.2.3:5000";
+// static const char Url[] = "http://192.168.2.3:5000";
+static const char Url[] = "http://35.181.43.77:5000/";
+
 static const char FormatStr[] = "/sys/devices/i2c-0/0-0068/iio:device0/in_%s_%s";
 static const char AccType[]   = "accel";
 static const char CompX[]     = "x_raw";
@@ -26,6 +29,7 @@ static const char CompZ[]     = "z_raw";
 static void PostUrl(char *jsonString)
 {
 
+  le_data_Request();
   // send_message(jsonString);
 
   CURL *curl = curl_easy_init();
@@ -89,7 +93,6 @@ void mangOH_ReadAccelSensor(double *xAcc,double *yAcc,double *zAcc)
 
 COMPONENT_INIT
 {
-
   int32_t latitude; int32_t longitude; int32_t horizontalAccuracy;
   int32_t *latitudePtr = &latitude; int32_t *longitudePtr = &longitude; int32_t *horizontalAccuracyPtr = &horizontalAccuracy;
 
@@ -117,7 +120,6 @@ COMPONENT_INIT
         le_pos_Get2DLocation(latitudePtr, longitudePtr, horizontalAccuracyPtr);
         sprintf(jsonString,"{ \"counter\" :  %d , \"acceleration\" :  %d , \"latitude\" :  %d , \"longitude\" :  %d }",counter , (int)a , latitude , longitude );
         PostUrl(jsonString);
-
         counter++;
         startTime = time(NULL);
       }

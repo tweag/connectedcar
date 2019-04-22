@@ -44,5 +44,6 @@ bindings:
 {
     myapp.comp.le_sms  -> modemService.le_sms
     myapp.comp.le_pos  -> positioningService.le_pos
+    myapp.comp.le_data -> dataConnectionService.le_data
 
 }

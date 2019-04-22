@@ -9,4 +9,4 @@ $ python -m flask run --host=0.0.0.0
 ```
 3. Open a web browser (e.g. Chrome) on port http://localhost:5000.
 
-The smart contract and the flask code is inspired from [here](https://github.com/adamyala/Your_First_Decentralized_Application_Python).
+The smart contract and the flask code is inspired from [this](https://github.com/adamyala/Your_First_Decentralized_Application_Python) example.

@@ -4,6 +4,7 @@ requires:
     {
         modemServices/le_sms.api
         positioning/le_pos.api
+        le_data.api
     }
 
     component:
@@ -59,13 +60,10 @@ bundles:
         #elif file_exists(${LEGATO_SYSROOT}/usr/lib/libhogweed.so.2)
             ${LEGATO_SYSROOT}/usr/lib/libhogweed.so.2 /ib/
         #endif
+
+        
     }
-
-
 }
-
-
-
 sources:
 {
     main.c
