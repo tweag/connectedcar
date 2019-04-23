@@ -26,6 +26,6 @@ $ update ~/mangOH/build/update_files/red/mangOH.wp76xx.update 192.168.2.2
 Then go to the main directory (where the file `accident.adef` exists) install our application:
 ```
 $ cfglegato
-$ mkapp -t wp76xx accident.adef
-$ app install accident.wp76xx.update  192.168.2.2
+$ mkapp -i $LEGATO_ROOT/interfaces/modemServices -t wp76xx accident.adef
+$ app install accident.wp76xx.update 192.168.2.2
 ```
