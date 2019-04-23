@@ -1,89 +1,39 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'layout.html' %}
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% block body %}
 
-        <title>Accident IoT</title>
-    </head>
-    <body class="container">
+<div class="row">
+    <div class="col">
+      <p> Whenever our MangOH device observes a drastic acceleration we get notified here. These are the hashes of the accidents with their corresponding setup pages.</p>
+    </div>
+</div>
 
-        <div class="row">
-            <div class="col">
-                <h3> <a href="http://127.0.0.1:5000/"> Accident Data </a> </h3>
-            </div>
+<br>
+<br>
+
+<div class="row">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Accident Hashes</th>
+                    <th>Finalised Status</th>
+                    <th>Setup Page</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for hash  in hashes %}
+                    <tr>
+                        <td>{{ hash }}</td>
+                        <td>{{ isFinalisedList[hash] }}</td>
+                        <td><a href="/contract/{{hash}}">click here</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
+    </div>
+</div>
 
-        <div class="row">
-            <div class="col">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <tbody>
-                            <tr>
-                                <td>Contract Hash</td>
-                                <td>{{ contractHash }}</td>
-                            </tr>
-                            <tr>
-                                <td>Latitude</td>
-                                <td>{{ latitude }}</td>
-                            </tr>
-                            <tr>
-                                <td>Longitude</td>
-                                <td>{{ longitude }}</td>
-                            </tr>
-                            <tr>
-                                <td>Finalised</td>
-                                <td>{{ isFinalised }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Persons</th>
-                            <th>Notes</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for person, note in persons.items() %}
-                            <tr>
-                                <td>{{ person }}</td>
-                                <td>{{ note }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <form action="./{{contractHash}}" method="post">
-                    <div class="form-group row">
-                        <label for="candidateInput{{contractHash}}" class="col-md-3 col-form-label">Person Name:</label>
-                        <div class="col-md-3">
-                            <input id="candidateInput{{contractHash}}" type="text" name="person{{contractHash}}" class="form-control" required/>
-                        </div>
-                        <br><br>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </body>
-</html>
+{% endblock %}

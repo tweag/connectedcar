@@ -4,7 +4,7 @@
 #include <curl/curl.h>
 
 // static const char Url[] = "http://192.168.2.3:5000";
-static const char Url[] = "http://35.181.43.77:5000/";
+static const char Url[] = "http://35.180.234.109:5000/";
 
 static const char FormatStr[] = "/sys/devices/i2c-0/0-0068/iio:device0/in_%s_%s";
 static const char AccType[]   = "accel";

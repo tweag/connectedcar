@@ -85,7 +85,7 @@ def index():
         else:
             isFinalisedList[hash] = "NO"
 
-    return render_template('homePage.html', hashes = hashes , isFinalisedList = isFinalisedList )
+    return render_template('index.html', hashes = hashes , isFinalisedList = isFinalisedList )
 
 
 # For every contract there is a page that sets the values:
@@ -132,7 +132,12 @@ def accidentSetter(contractHash):
     else:
         isFinalised = "NO"
 
-    return render_template('index.html', persons=persons, contractHash = contractHash , isFinalised = isFinalised , alert=alert , latitude = latitude*0.00000001 , longitude = longitude*0.00000001)
+    return render_template('accident.html', persons=persons, contractHash = contractHash , isFinalised = isFinalised , alert=alert , latitude = latitude*0.00000001 , longitude = longitude*0.00000001)
+
+@app.route('/about', methods=['GET'])
+def about():
+    return render_template('about.html')
+
 
 if __name__ == '__main__':
     # app.run(debug=True, use_reloader=False)
