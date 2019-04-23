@@ -1,0 +1,49 @@
+executables:
+{
+    myapp = ( comp )
+}
+
+requires:
+{
+    file:
+    {
+        // needed for curl itself:
+        /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+        /usr/bin/curl /usr/bin/curl
+
+        // needed for networking:
+        /lib/libnss_compat.so.2 /lib/
+        /lib/libnss_files.so.2 /lib/
+        /lib/libnss_dns.so.2 /lib/
+        /lib/libresolv.so.2 /lib/
+        /etc/nsswitch.conf /etc/
+        /etc/hosts /etc/
+        /etc/resolv.conf /etc/
+
+        /bin/sh /bin/sh
+        /bin/date /bin/date
+    }
+
+    device:
+    {
+        [rw] /dev/null /dev/null
+        [r] /dev/urandom /dev/urandom
+        [r] /dev/random /dev/random
+    }
+}
+
+processes:
+{
+    run:
+    {
+        ( myapp )
+    }
+}
+
+bindings:
+{
+    myapp.comp.le_sms  -> modemService.le_sms
+    myapp.comp.le_pos  -> positioningService.le_pos
+    myapp.comp.le_data -> dataConnectionService.le_data
+
+}
