@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link
+        href="http://cdn.pydata.org/bokeh/release/bokeh-1.1.0.min.css"
+        rel="stylesheet" type="text/css">
+        <script src="http://cdn.pydata.org/bokeh/release/bokeh-1.1.0.min.js"></script>
+        
+        <title>Tweag Accident IoT</title>
+    </head>
+
+    <body class="container">
+      {% include 'includes/_navbar.html' %}
+      <br>
+      <br>
+
+      <div class="contrainer">
+        {% block body %}{% endblock %}
+      </div>
+
+    </body>
+</html>

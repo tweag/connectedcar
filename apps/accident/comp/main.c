@@ -3,8 +3,8 @@
 #include "le_data_interface.h"
 #include <curl/curl.h>
 
-// static const char Url[] = "http://192.168.2.3:5000";
-static const char Url[] = "http://35.180.234.109:5000/";
+static const char Url[] = "http://192.168.2.3:5000";
+// static const char Url[] = "http://35.180.43.231:5000/";
 
 static const char FormatStr[] = "/sys/devices/i2c-0/0-0068/iio:device0/in_%s_%s";
 static const char AccType[]   = "accel";
@@ -93,16 +93,13 @@ void mangOH_ReadAccelSensor(double *xAcc,double *yAcc,double *zAcc)
 
 COMPONENT_INIT
 {
-  int32_t latitude; int32_t longitude; int32_t horizontalAccuracy;
-  int32_t *latitudePtr = &latitude; int32_t *longitudePtr = &longitude; int32_t *horizontalAccuracyPtr = &horizontalAccuracy;
-
   double accX; double accY; double accZ;
   double *accXPtr = &accX; double *accYPtr = &accY; double *accZPtr = &accZ;
   double a = 0.0;
 
-  double accidentThresh = 30 * 1000;
+  // double accidentThresh = 30 * 1000;
 
-  double timeoutInSeconds = 1;
+  double timeoutInSeconds = 0.5;
 
   char jsonString[1000];
   int counter = 0;
@@ -115,14 +112,16 @@ COMPONENT_INIT
     {
       mangOH_ReadAccelSensor( accXPtr, accYPtr, accZPtr);
       a = pow ( pow(accX,2) + pow(accY,2) + pow(accZ,2) , 0.5 );
-      if (a > accidentThresh)
-      {
-        le_pos_Get2DLocation(latitudePtr, longitudePtr, horizontalAccuracyPtr);
-        sprintf(jsonString,"{ \"counter\" :  %d , \"acceleration\" :  %d , \"latitude\" :  %d , \"longitude\" :  %d }",counter , (int)a , latitude , longitude );
+      // if (a > accidentThresh)
+      // {
+        // le_pos_Get2DLocation(latitudePtr, longitudePtr, horizontalAccuracyPtr);
+        // sprintf(jsonString,"{ \"accX\" :  %d , \"accY\" :  %d , \"accZ\" :  %d , \"counter\" :  %d , \"acceleration\" :  %d , \"latitude\" :  %d , \"longitude\" :  %d }",accX , accY , accZ , counter , (int)a , latitude , longitude );
+        sprintf(jsonString,"{ \"accX\" :  %d , \"accY\" :  %d , \"accZ\" :  %d , \"counter\" :  %d , \"acceleration\" :  %d}",
+         (int)accX , (int)accY , (int)accZ , counter , (int)a);
         PostUrl(jsonString);
         counter++;
         startTime = time(NULL);
-      }
+      // }
     }
   }
 }

@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col">
+      <p>
+        This is the PoC we, at <a href="http://tweag.io">Tweag</a>, designed for the <a href="http://occ-challenge.strikingly.com/">Connected Car Challenge.</a></p>
+      <p>
+        The current application aims to detect car accidents, encapsulate the information
+        inside a smart contract and embed it into a Block-Chain.
+        When the MangOH device observes a high acceleration by its
+        sensors, we get notified on this page. For each accident, we can go through
+        its setup page and alter the agreement status of different participant.
+      </p>
+      <p>
+        These are the hashes of the accidents with their corresponding setup pages.
+      </p>
+    </div>
+</div>
+
+<br>
+<br>
+
+
+<center>
+    {{ div | safe }}
+    {{ script | safe }}
+</center>
+
+
+<br>
+<br>
+
+<div class="row">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Accident Hashes</th>
+                    <th>Finalised Status</th>
+                    <th>Setup Page</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for hash  in hashes %}
+                    <tr>
+                        <td>{{ hash }}</td>
+                        <td>{{ isFinalisedList[hash] }}</td>
+                        <td><a href="/contract/{{hash}}">click here</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+
+
+{% endblock %}
