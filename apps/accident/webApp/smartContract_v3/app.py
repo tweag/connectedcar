@@ -6,6 +6,8 @@ import json
 from bokeh.plotting import figure
 from bokeh.resources import CDN
 from bokeh.embed import components
+from bokeh.models import Range1d
+
 
 
 
@@ -61,12 +63,6 @@ def AppendOnFile ( fileName , dataToAppend ) :
         outfile.write (json.dumps(oldData))
 
 
-
-
-
-
-
-
 DATA_FILENAME_HASHES = 'accident_hashes.json'
 with open(DATA_FILENAME_HASHES, mode='w', encoding='utf-8') as f:
     json.dump([], f)
@@ -110,24 +106,20 @@ def index():
         else:
             isFinalisedList[hash] = "NO"
 
-
-
     with open (DATA_FILENAME_ACCEL) as outfile:
         accel = json.load(outfile)
-    data = accel[-20:]
-    plot = figure(plot_width=700, plot_height=200)
+    data = accel[-60:]
+    plot = figure(plot_width=1100, plot_height=300)
     xdata = range( len(data) )
     ydata = data
-    plot.line(xdata, ydata , color="navy", alpha=0.5)
+    plot.line(x = xdata, y = ydata , color="navy", alpha=0.5)
+    left, right, bottom, top = 0, 60, 14000, 30000
+    plot.x_range=Range1d(left, right)
+    plot.y_range=Range1d(bottom, top)
+
     script , div = components (plot)
 
-
-
     return render_template('index.html', hashes = hashes , isFinalisedList = isFinalisedList , script = script , div = div )
-
-
-
-
 
 
 
