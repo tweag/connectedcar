@@ -1,23 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link
-    href="http://cdn.pydata.org/bokeh/release/bokeh-1.1.0.min.css"
-    rel="stylesheet" type="text/css">
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-1.1.0.min.js"></script>
-    <meta charset="UTF-8">
-    <title>plot</title>
+{% extends 'layout.html' %}
 
-</head>
+{% block body %}
 
-<body>
+<br>
+<br>
 
 
-    <div style="width: 20%; display: inline-block;">
-        {{ div | safe }}
-        {{ script | safe }}
-    </div>
+<center>
+    {{ div | safe }}
+    {{ script | safe }}
+</center>
 
 
-</body>
-</html>
+<br>
+<br>
+
+{% endblock %}

@@ -1,12 +1,16 @@
-from flask import Flask, request, render_template , Markup
+from flask import Flask, request, render_template , jsonify
 from solc import compile_source
 from web3 import Web3, HTTPProvider
 import json
 
 from bokeh.plotting import figure
-from bokeh.resources import CDN
 from bokeh.embed import components
 from bokeh.models import Range1d
+from bokeh.models import AjaxDataSource
+
+
+
+
 
 
 
@@ -55,12 +59,17 @@ def accidentContract(participant , counterValue , accelerationValue):
     )
     return contract_address
 
+
+
+
+
+
 def AppendOnFile ( fileName , dataToAppend ) :
     with open (fileName) as outfile:
         oldData = json.load(outfile)
         oldData.append(dataToAppend)
     with open (fileName, mode = 'w') as outfile:
-        outfile.write (json.dumps(oldData))
+        outfile.write (json.dumps(oldData[-60:]))
 
 
 DATA_FILENAME_HASHES = 'accident_hashes.json'
@@ -70,6 +79,9 @@ with open(DATA_FILENAME_HASHES, mode='w', encoding='utf-8') as f:
 DATA_FILENAME_ACCEL = 'accelerations.json'
 with open(DATA_FILENAME_ACCEL, mode='w', encoding='utf-8') as f:
     json.dump([], f)
+
+
+
 
 
 
@@ -106,20 +118,7 @@ def index():
         else:
             isFinalisedList[hash] = "NO"
 
-    with open (DATA_FILENAME_ACCEL) as outfile:
-        accel = json.load(outfile)
-    data = accel[-60:]
-    plot = figure(plot_width=1100, plot_height=300)
-    xdata = range( len(data) )
-    ydata = data
-    plot.line(x = xdata, y = ydata , color="navy", alpha=0.5)
-    left, right, bottom, top = 0, 60, 14000, 30000
-    plot.x_range=Range1d(left, right)
-    plot.y_range=Range1d(bottom, top)
-
-    script , div = components (plot)
-
-    return render_template('index.html', hashes = hashes , isFinalisedList = isFinalisedList , script = script , div = div )
+    return render_template('index.html', hashes = hashes , isFinalisedList = isFinalisedList )
 
 
 
@@ -131,27 +130,20 @@ def index():
 # Plotting part
 
 @app.route('/plot', methods=['GET'])
-def myplot():
+def myPlot():
 
     with open (DATA_FILENAME_ACCEL) as outfile:
         accel = json.load(outfile)
-    data = accel[-100:]
-    plot = figure(plot_width=1400, plot_height=400)
-    xdata = range( len(data) )
-    ydata = data
-    plot.line(xdata, ydata , color="navy", alpha=0.5)
+    xdata = range(len(accel))
+    ydata = accel
+    plot = figure(plot_width=1000, plot_height=400)
+    plot.line( xdata , ydata , color="navy", alpha=0.5)
+    # left, right, bottom, top = 0, 60, 14000, 30000
+    # plot.x_range=Range1d(left, right)
+    # plot.y_range=Range1d(bottom, top)
+
     script , div = components (plot)
-    return render_template ('plot.html' , script = script , div = div )
-
-
-
-
-
-
-
-
-
-
+    return render_template('plot.html' , script = script , div = div )
 
 
 # For every contract there is a page that sets the values:

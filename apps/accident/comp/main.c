@@ -99,7 +99,7 @@ COMPONENT_INIT
 
   // double accidentThresh = 30 * 1000;
 
-  double timeoutInSeconds = 0.5;
+  double timeoutInSeconds = 1;
 
   char jsonString[1000];
   int counter = 0;
