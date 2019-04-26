@@ -18,7 +18,7 @@ from bokeh.models import AjaxDataSource
 
 from web3.contract import ConciseContract
 
-app = Flask(__name__)
+app = Flask(__name__ , static_url_path='/static')
 
 http_provider = HTTPProvider('http://localhost:8545')
 eth_provider = Web3(http_provider).eth
