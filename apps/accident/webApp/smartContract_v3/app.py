@@ -129,20 +129,18 @@ def index():
 
 # Plotting part
 
-@app.route('/plot', methods=['GET'])
+@app.route('/fig', methods=['GET'])
 def myPlot():
 
     with open (DATA_FILENAME_ACCEL) as outfile:
         accel = json.load(outfile)
-    xdata = range(len(accel))
-    ydata = accel
-    plot = figure(plot_width=1000, plot_height=400)
-    plot.line( xdata , ydata , color="navy", alpha=0.5)
+    fig = figure(plot_width=1000, plot_height=400)
+    fig.line( range(len(accel)) , accel , color="navy", alpha=0.5)
     # left, right, bottom, top = 0, 60, 14000, 30000
     # plot.x_range=Range1d(left, right)
     # plot.y_range=Range1d(bottom, top)
 
-    script , div = components (plot)
+    script , div = components (fig)
     return render_template('plot.html' , script = script , div = div )
 
 
