@@ -6,7 +6,7 @@ __pychache__/
 *.update
 _build_*
 *.json
-StreamingData.ipynb
+*.ipynb
 apps/accident/files.txt
 clustering.jpg
 datas_read.png
