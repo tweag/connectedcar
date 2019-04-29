@@ -91,13 +91,13 @@ def index():
     data = request.get_json()
     if request.method == 'POST' and data :
         counterValue = data['counter']
-        accelerationValue = data['acceleration']
+        accelerationValue = data['acc']
         accX = data['accX']
         accY = data['accY']
         accZ = data['accZ']
         a = (accX**2 + accY**2 + accZ**2)**(0.5)
-        # jsonToAppend = { 'counter' : counterValue , 'acceleration' : a}
-        jsonToAppend = a
+        jsonToAppend = { 'counter' : counterValue , 'accX' : accX , 'accY' : accY , 'accZ' : accZ}
+        # jsonToAppend = a
         AppendOnFile ( DATA_FILENAME_ACCEL , jsonToAppend )
 
         if a>25000:
@@ -137,8 +137,11 @@ def myPlot():
     with open (DATA_FILENAME_ACCEL) as outfile:
         data = json.load(outfile)[-60:]
 
-    newdata = [ {'x' : i , 'y' : data[i] } for i in range( len(data)) ]
-    return render_template('plot.html' , data = newdata)
+    accXdata = [ {'t' : i , 'accX' : data[i]['accX'] } for i in range( len(data)) ]
+    accYdata = [ {'t' : i , 'accY' : data[i]['accY'] } for i in range( len(data)) ]
+    accZdata = [ {'t' : i , 'accZ' : data[i]['accZ'] } for i in range( len(data)) ]
+
+    return render_template('plot.html' , accXdata = accXdata , accYdata = accYdata , accZdata = accZdata)
 
 # For every contract there is a page that sets the values:
 

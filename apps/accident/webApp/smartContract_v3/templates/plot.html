@@ -9,22 +9,57 @@
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@3.2.1"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@4.0.0"></script>
 
-<center> <div id="vis"></div> </center>
+<center> <div id="visX"></div> </center>
+<center> <div id="visY"></div> </center>
+<center> <div id="visZ"></div> </center>
+
 
 <script type="text/javascript">
-  var yourVlSpec = {
+  var yourVlSpecX = {
     $schema: 'https://vega.github.io/schema/vega-lite/v3.2.1.json',
     description: 'Acceleration figure',
     width: 900,
-    height: 400,
-    data: { values : {{ data|safe }} } ,
+    height: 100,
+    data: { values : {{ accXdata|safe }} } ,
     mark: "line",
     encoding: {
-    x: { field: "x", type: "quantitative" , scale: { domain: [0 , 60]} },
-    y: { field: "y", type: "quantitative", scale: { domain: [10000 , 30000]} }
+    x: { field: "t", type: "quantitative" , scale: { domain: [0 , 60]} },
+    // y: { field: "y", type: "quantitative", scale: { domain: [10000 , 30000]} }
+    y: { field: "accX", type: "quantitative"}
   }
   };
-  vegaEmbed('#vis', yourVlSpec);
+  var yourVlSpecY = {
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.2.1.json',
+    description: 'Acceleration figure',
+    width: 900,
+    height: 100,
+    data: { values : {{ accYdata|safe }} } ,
+    mark: "line",
+    encoding: {
+    x: { field: "t", type: "quantitative" , scale: { domain: [0 , 60]} },
+    // y: { field: "y", type: "quantitative", scale: { domain: [10000 , 30000]} }
+    y: { field: "accY", type: "quantitative"}
+  }
+  };
+  var yourVlSpecZ = {
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.2.1.json',
+    description: 'Acceleration figure',
+    width: 900,
+    height: 100,
+    data: { values : {{ accZdata|safe }} } ,
+    mark: "line",
+    encoding: {
+    x: { field: "t", type: "quantitative" , scale: { domain: [0 , 60]} },
+    // y: { field: "y", type: "quantitative", scale: { domain: [10000 , 30000]} }
+    y: { field: "accZ", type: "quantitative"}
+  }
+  };
+
+
+
+  vegaEmbed('#visX', yourVlSpecX);
+  vegaEmbed('#visY', yourVlSpecY);
+  vegaEmbed('#visZ', yourVlSpecZ);
 </script>
 
 
