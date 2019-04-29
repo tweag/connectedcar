@@ -5,14 +5,27 @@
 <br>
 <br>
 
+<script src="https://cdn.jsdelivr.net/npm/vega@5.3.5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@3.2.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@4.0.0"></script>
 
-<link rel="stylesheet" type="text/css" href="/static/bokeh.css">
-<script type="text/javascript" src="/static/bokeh.js"></script>
+<center> <div id="vis"></div> </center>
 
-<center>
-    {{ div | safe }}
-    {{ script | safe }}
-</center>
+<script type="text/javascript">
+  var yourVlSpec = {
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.2.1.json',
+    description: 'Acceleration figure',
+    width: 900,
+    height: 400,
+    data: { values :  {{ data|safe }} } ,
+    mark: "line",
+    encoding: {
+    x: { field: "counter", type: "quantitative"},
+    y: { field: "acceleration", type: "quantitative", scale: { domain: [16000 , 25000]} }
+  }
+  };
+  vegaEmbed('#vis', yourVlSpec);
+</script>
 
 
 <br>
