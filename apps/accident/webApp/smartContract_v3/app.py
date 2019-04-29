@@ -96,7 +96,8 @@ def index():
         accY = data['accY']
         accZ = data['accZ']
         a = (accX**2 + accY**2 + accZ**2)**(0.5)
-        jsonToAppend = { 'counter' : counterValue , 'acceleration' : a}
+        # jsonToAppend = { 'counter' : counterValue , 'acceleration' : a}
+        jsonToAppend = a
         AppendOnFile ( DATA_FILENAME_ACCEL , jsonToAppend )
 
         if a>25000:
@@ -134,9 +135,10 @@ def index():
 def myPlot():
 
     with open (DATA_FILENAME_ACCEL) as outfile:
-        data = json.load(outfile)
-    data = data[-30:]
-    return render_template('plot.html' , data = data)
+        data = json.load(outfile)[-60:]
+
+    newdata = [ {'x' : i , 'y' : data[i] } for i in range( len(data)) ]
+    return render_template('plot.html' , data = newdata)
 
 # For every contract there is a page that sets the values:
 

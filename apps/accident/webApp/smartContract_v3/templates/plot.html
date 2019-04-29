@@ -17,11 +17,11 @@
     description: 'Acceleration figure',
     width: 900,
     height: 400,
-    data: { values :  {{ data|safe }} } ,
+    data: { values : {{ data|safe }} } ,
     mark: "line",
     encoding: {
-    x: { field: "counter", type: "quantitative"},
-    y: { field: "acceleration", type: "quantitative", scale: { domain: [10000 , 30000]} }
+    x: { field: "x", type: "quantitative" , scale: { domain: [0 , 60]} },
+    y: { field: "y", type: "quantitative", scale: { domain: [10000 , 30000]} }
   }
   };
   vegaEmbed('#vis', yourVlSpec);
