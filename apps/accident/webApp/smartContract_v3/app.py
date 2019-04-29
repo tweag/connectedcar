@@ -99,7 +99,7 @@ def index():
         jsonToAppend = { 'counter' : counterValue , 'acceleration' : a}
         AppendOnFile ( DATA_FILENAME_ACCEL , jsonToAppend )
 
-        if a>30000:
+        if a>25000:
             contract_address = accidentContract(participant , counterValue , accelerationValue)
             AppendOnFile ( DATA_FILENAME_HASHES , contract_address )
 

@@ -21,10 +21,19 @@
     mark: "line",
     encoding: {
     x: { field: "counter", type: "quantitative"},
-    y: { field: "acceleration", type: "quantitative", scale: { domain: [16000 , 25000]} }
+    y: { field: "acceleration", type: "quantitative", scale: { domain: [10000 , 30000]} }
   }
   };
   vegaEmbed('#vis', yourVlSpec);
+</script>
+
+
+<script type="text/javascript">
+  var timeout = setTimeout("location.reload(true);",1000);
+  function resetTimeout() {
+    clearTimeout(timeout);
+    timeout = setTimeout("location.reload(true);",1000);
+  }
 </script>
 
 
