@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Contract Hash</td>
+                        <td>{{ contractHash }}</td>
+                    </tr>
+                    <tr>
+                        <td>Finalised</td>
+                        <td>{{ isFinalised }}</td>
+                    </tr>
+                    <tr>
+                        <td>Latitude</td>
+                        <td>{{ latitude }}</td>
+                    </tr>
+                    <tr>
+                        <td>Longitude</td>
+                        <td>{{ longitude }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Persons</th>
+                    <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for person, note in persons.items() %}
+                    <tr>
+                        <td>{{ person }}</td>
+                        <td>{{ note }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <form action="./{{contractHash}}" method="post">
+            <div class="form-group row">
+                <label for="candidateInput{{contractHash}}" class="col-md-3 col-form-label">Person Name:</label>
+                <div class="col-md-3">
+                    <input id="candidateInput{{contractHash}}" type="text" name="person{{contractHash}}" class="form-control" required/>
+                </div>
+                <br><br>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
