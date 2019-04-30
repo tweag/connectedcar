@@ -3,18 +3,6 @@ from solc import compile_source
 from web3 import Web3, HTTPProvider
 import json
 
-from bokeh.plotting import figure
-from bokeh.embed import components
-from bokeh.models import Range1d
-from bokeh.models import AjaxDataSource
-
-
-
-
-
-
-
-
 
 from web3.contract import ConciseContract
 
@@ -46,8 +34,8 @@ contract_factory = eth_provider.contract(
 
 participant = [b'Car', b'Witness', b'Police']
 
-def accidentContract(participant , counterValue , latitudeValue ,longitudeValue):
-    contract_constructor = contract_factory.constructor( participant , counterValue , latitudeValue ,longitudeValue)
+def accidentContract(participant , counterValue , latitudeValue , longitudeValue):
+    contract_constructor = contract_factory.constructor( participant , counterValue ,latitudeValue , longitudeValue)
     transaction_hash = contract_constructor.transact(transaction_details)
     transaction_receipt = eth_provider.getTransactionReceipt(transaction_hash)
     contract_address = transaction_receipt['contractAddress']
@@ -62,41 +50,50 @@ def accidentContract(participant , counterValue , latitudeValue ,longitudeValue)
 
 
 
-def makeEmptyFile (fileName):
-    with open(fileName, mode='w', encoding='utf-8') as f:
-        json.dump([], f)
+
 
 def AppendOnFile ( fileName , dataToAppend ) :
     with open (fileName) as outfile:
         oldData = json.load(outfile)
         oldData.append(dataToAppend)
     with open (fileName, mode = 'w') as outfile:
-        outfile.write (json.dumps(oldData))
+        outfile.write (json.dumps(oldData[-100:]))
+
 
 DATA_FILENAME_HASHES = 'accident_hashes.json'
-makeEmptyFile(DATA_FILENAME_HASHES)
+with open(DATA_FILENAME_HASHES, mode='w', encoding='utf-8') as f:
+    json.dump([], f)
 
-DATA_FILENAME = 'data.json'
-makeEmptyFile(DATA_FILENAME)
+DATA_FILENAME_ACCEL = 'accelerations.json'
+with open(DATA_FILENAME_ACCEL, mode='w', encoding='utf-8') as f:
+    json.dump([], f)
+
+
+
+
+
+
 
 @app.route('/', methods=['GET' , 'POST'])
 def index():
     data = request.get_json()
     if request.method == 'POST' and data :
-        counterValue = data['counter']
-        accX = data['accX']
-        accY = data['accY']
-        accZ = data['accZ']
-        latitude = data['latitude']
-        longitude = data['longitude']
-        a = (accX**2 + accY**2 + accZ**2)**(0.5)
+        for i in range(len(data)):
 
-        jsonToAppend = { 'counter' : counterValue , 'accX' : accX , 'accY' : accY , 'accZ' : accZ ,'latitude' : latitude , 'longitude' : longitude }
-        AppendOnFile ( DATA_FILENAME , jsonToAppend)
+            counterValue = data[i]['counter']
+            accX = data[i]['accX']
+            accY = data[i]['accY']
+            accZ = data[i]['accZ']
+            longitude = 0
+            latitude = 0
+            a = (accX**2 + accY**2 + accZ**2)**(0.5)
+            jsonToAppend = { 'counter' : counterValue , 'accX' : accX , 'accY' : accY , 'accZ' : accZ}
+            # jsonToAppend = a
+            AppendOnFile ( DATA_FILENAME_ACCEL , jsonToAppend )
 
-        if a>25000:
-            contract_address = accidentContract(participant , counterValue , latitude , longitude)
-            AppendOnFile ( DATA_FILENAME_HASHES , contract_address )
+            if a>10:
+                contract_address = accidentContract(participant , counterValue , latitude , longitude )
+                AppendOnFile ( DATA_FILENAME_HASHES , contract_address )
 
     with open (DATA_FILENAME_HASHES) as outfile:
         hashes = json.load(outfile)
@@ -121,20 +118,23 @@ def index():
 
 
 
-@app.route('/data' , methods = ['GET'])
-def mydata():
-    with open (DATA_FILENAME) as outfile:
-        data = json.load(outfile)[-60:]
-    return 'data = ' + str(data)
 
+
+# Plotting part
 
 @app.route('/fig', methods=['GET'])
 def myPlot():
 
-    return render_template('plot.html')
+    with open (DATA_FILENAME_ACCEL) as outfile:
+        data = json.load(outfile)[-100:]
 
+    accXdata = [ {'t' : i , 'accX' : data[i]['accX'] } for i in range( len(data)) ]
+    accYdata = [ {'t' : i , 'accY' : data[i]['accY'] } for i in range( len(data)) ]
+    accZdata = [ {'t' : i , 'accZ' : data[i]['accZ'] } for i in range( len(data)) ]
 
+    return render_template('plot.html' , accXdata = accXdata , accYdata = accYdata , accZdata = accZdata)
 
+# For every contract there is a page that sets the values:
 
 
 @app.route('/contract/<string:contractHash>', methods=['GET' , 'POST'])
@@ -178,7 +178,7 @@ def accidentSetter(contractHash):
     else:
         isFinalised = "NO"
 
-    return render_template('accident.html', persons=persons, latitude = latitude , longitude = longitude ,  contractHash = contractHash , isFinalised = isFinalised , alert=alert)
+    return render_template('accident.html', persons=persons, contractHash = contractHash , isFinalised = isFinalised , alert=alert)
 
 @app.route('/about', methods=['GET'])
 def about():

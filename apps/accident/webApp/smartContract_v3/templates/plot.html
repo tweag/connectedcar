@@ -9,60 +9,46 @@
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@3.2.1"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@4.0.0"></script>
 
-<!-- <script type="text/javascript" src="/data"></script> -->
-
-
-
 <center> <div id="visX"></div> </center>
 <center> <div id="visY"></div> </center>
 <center> <div id="visZ"></div> </center>
 
-<script type="text/javascript" src ='/data'></script>
+
 <script type="text/javascript">
 
-cd
-function vegaPlotter(yField){
-
+  function vegaPlotter( myData , fieldData){
   var yourVlSpec = {
     $schema: 'https://vega.github.io/schema/vega-lite/v3.2.1.json',
     description: 'Acceleration figure',
     width: 900,
     height: 100,
-    data: { values : data.yField },
+    data: { values : myData },
     mark: "line",
     encoding: {
-    x: { field: "t", type: "quantitative" , scale: { domain: [0 , 60]} },
-    // y: { field: "y", type: "quantitative", scale: { domain: [10000 , 30000]} }
-    y: { field: 'y', type: "quantitative"}
+    x: { field: "t", type: "quantitative" , scale: { domain: [0 , 100]} },
+    y: { field: fieldData , type: "quantitative", scale: { domain: [-10 , 10 ]} }
+    // y: { field: fieldData , type: "quantitative"}
   }
   };
   return yourVlSpec;
-}
-
-  var yourVlSpecX =  vegaPlotter ( accX );
-  var yourVlSpecY =  vegaPlotter ( accY );
-  var yourVlSpecZ =  vegaPlotter ( accZ );
+  }
+  var yourVlSpecX =  vegaPlotter ( {{ accXdata|safe }} , 'accX' );
+  var yourVlSpecY =  vegaPlotter ( {{ accYdata|safe }} , 'accY' );
+  var yourVlSpecZ =  vegaPlotter ( {{ accZdata|safe }} , 'accZ' );
 
   vegaEmbed('#visX', yourVlSpecX);
   vegaEmbed('#visY', yourVlSpecY);
   vegaEmbed('#visZ', yourVlSpecZ);
-
-
-
-
-
-
-
 </script>
 
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
   var timeout = setTimeout("location.reload(true);",1000);
   function resetTimeout() {
     clearTimeout(timeout);
     timeout = setTimeout("location.reload(true);",1000);
   }
-</script> -->
+</script>
 
 
 <br>

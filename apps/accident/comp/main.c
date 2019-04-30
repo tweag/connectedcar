@@ -91,37 +91,69 @@ void mangOH_ReadAccelSensor(double *xAcc,double *yAcc,double *zAcc)
 
 }
 
+double myClockDiffInSecond (clock_t myclock2 , clock_t myclock1) {
+  return (double)(myclock2 - myclock1) / CLOCKS_PER_SEC;
+}
+
 COMPONENT_INIT
 {
   double accX; double accY; double accZ;
   double *accXPtr = &accX; double *accYPtr = &accY; double *accZPtr = &accZ;
-  double a = 0.0;
+  // double a = 0.0;
 
   // double accidentThresh = 30 * 1000;
 
-  double timeoutInSeconds = 1;
+  double timeoutInSeconds = 0.1;
 
   char jsonString[1000];
+  char toPost[10000];
+
   int counter = 0;
 
-  time_t startTime = time(NULL);
+  // time_t startTime1 = time(NULL);
+  // time_t startTime2 = time(NULL);
+  //
+  // time_t start = time(NULL);
+  // time_t end = time(NULL);
+
+  clock_t clock1 = clock();
+  clock_t clock2 = clock();
+
+
 
   while(true)
   {
-    if (difftime(time(NULL), startTime) > timeoutInSeconds)
+    strcpy(toPost, "[");
+    while ( myClockDiffInSecond (clock2, clock1) <  1 )
     {
-      mangOH_ReadAccelSensor( accXPtr, accYPtr, accZPtr);
-      a = pow ( pow(accX,2) + pow(accY,2) + pow(accZ,2) , 0.5 );
-      // if (a > accidentThresh)
-      // {
+      if ( myClockDiffInSecond ( clock(), clock2) > timeoutInSeconds)
+      {
+        mangOH_ReadAccelSensor( accXPtr, accYPtr, accZPtr);
+
+        // Calibration
+        accX -= -800;
+        accX /= 1000;
+
+        accY -= 1100;
+        accY /= 1000;
+
+        accZ -= 17300;
+        accZ /= 1000;
+
+        // a = pow ( pow(accX,2) + pow(accY,2) + pow(accZ,2) , 0.5 );
         // le_pos_Get2DLocation(latitudePtr, longitudePtr, horizontalAccuracyPtr);
         // sprintf(jsonString,"{ \"accX\" :  %d , \"accY\" :  %d , \"accZ\" :  %d , \"counter\" :  %d , \"acceleration\" :  %d , \"latitude\" :  %d , \"longitude\" :  %d }",accX , accY , accZ , counter , (int)a , latitude , longitude );
-        sprintf(jsonString,"{ \"accX\" :  %d , \"accY\" :  %d , \"accZ\" :  %d , \"counter\" :  %d , \"acceleration\" :  %d}",
-         (int)accX , (int)accY , (int)accZ , counter , (int)a);
-        PostUrl(jsonString);
+
+        sprintf(jsonString,"{\"counter\" :  %d ,  \"accX\" :  %f , \"accY\" :  %f , \"accZ\" :  %f , \"diff\" :  %f }", counter , accX , accY , accZ , myClockDiffInSecond (clock2, clock1) );
+        strcat( toPost , jsonString);
+        strcat( toPost , ",");
         counter++;
-        startTime = time(NULL);
-      // }
-    }
+        clock2 = clock();
+        }
+      }
+    toPost[strlen(toPost) - 1] = ']';
+    PostUrl(toPost);
+    clock1 = clock();
+    clock2 = clock();
   }
 }
