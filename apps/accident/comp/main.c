@@ -4,7 +4,7 @@
 #include <curl/curl.h>
 
 static const char Url[] = "http://192.168.2.3:5000";
-// static const char Url[] = "http://35.180.43.231:5000/";
+// static const char Url[] = "http://35.180.156.148:5000/";
 
 static const char FormatStr[] = "/sys/devices/i2c-0/0-0068/iio:device0/in_%s_%s";
 static const char AccType[]   = "accel";
@@ -103,7 +103,7 @@ COMPONENT_INIT
 
   // double accidentThresh = 30 * 1000;
 
-  double timeoutInSeconds = 0.1;
+  double timeoutInSeconds = 0.01;
 
   char jsonString[1000];
   char toPost[10000];

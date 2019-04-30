@@ -57,7 +57,7 @@ def AppendOnFile ( fileName , dataToAppend ) :
         oldData = json.load(outfile)
         oldData.append(dataToAppend)
     with open (fileName, mode = 'w') as outfile:
-        outfile.write (json.dumps(oldData[-100:]))
+        outfile.write (json.dumps(oldData[-1000:]))
 
 
 DATA_FILENAME_HASHES = 'accident_hashes.json'
@@ -126,7 +126,7 @@ def index():
 def myPlot():
 
     with open (DATA_FILENAME_ACCEL) as outfile:
-        data = json.load(outfile)[-100:]
+        data = json.load(outfile)[-1000:]
 
     accXdata = [ {'t' : i , 'accX' : data[i]['accX'] } for i in range( len(data)) ]
     accYdata = [ {'t' : i , 'accY' : data[i]['accY'] } for i in range( len(data)) ]
