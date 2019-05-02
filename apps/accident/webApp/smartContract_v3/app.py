@@ -136,14 +136,11 @@ def index():
 # For loading data
 
 @app.route('/data.json', methods=['GET'])
-def myPlot():
+def nyData():
 
     with open (DATA_FILENAME_ACCEL) as outfile:
         data = json.load(outfile)
-
     return str(data)
-
-
 
 
 
