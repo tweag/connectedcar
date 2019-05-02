@@ -3,8 +3,8 @@
 #include "le_data_interface.h"
 #include <curl/curl.h>
 
-static const char Url[] = "http://192.168.2.3:5000";
-// static const char Url[] = "http://35.180.156.148:5000/";
+// static const char Url[] = "http://192.168.2.3:5000";
+static const char Url[] = "http://52.47.194.59:5000/";
 
 static const char FormatStr[] = "/sys/devices/i2c-0/0-0068/iio:device0/in_%s_%s";
 static const char AccType[]   = "accel";
@@ -97,11 +97,17 @@ double myClockDiffInSecond (clock_t myclock2 , clock_t myclock1) {
 
 COMPONENT_INIT
 {
+
+  // int32_t latitude; int32_t longitude;
+  // int32_t horizontalAccuracy;
+  // int32_t *latitudePtr = &latitude; int32_t *longitudePtr = &longitude; int32_t *horizontalAccuracyPtr = &horizontalAccuracy;
+
+
   double accX; double accY; double accZ;
   double *accXPtr = &accX; double *accYPtr = &accY; double *accZPtr = &accZ;
-  // double a = 0.0;
+  // double a;
 
-  // double accidentThresh = 30 * 1000;
+  // double accidentThresh = 10;
 
   double timeoutInSeconds = 0.01;
 
@@ -110,15 +116,8 @@ COMPONENT_INIT
 
   int counter = 0;
 
-  // time_t startTime1 = time(NULL);
-  // time_t startTime2 = time(NULL);
-  //
-  // time_t start = time(NULL);
-  // time_t end = time(NULL);
-
   clock_t clock1 = clock();
   clock_t clock2 = clock();
-
 
 
   while(true)
@@ -140,11 +139,16 @@ COMPONENT_INIT
         accZ -= 17300;
         accZ /= 1000;
 
-        // a = pow ( pow(accX,2) + pow(accY,2) + pow(accZ,2) , 0.5 );
-        // le_pos_Get2DLocation(latitudePtr, longitudePtr, horizontalAccuracyPtr);
-        // sprintf(jsonString,"{ \"accX\" :  %d , \"accY\" :  %d , \"accZ\" :  %d , \"counter\" :  %d , \"acceleration\" :  %d , \"latitude\" :  %d , \"longitude\" :  %d }",accX , accY , accZ , counter , (int)a , latitude , longitude );
+        // if ( accY > accidentThresh || accY < -accidentThresh ) {
+        //   le_pos_Get2DLocation(latitudePtr, longitudePtr, horizontalAccuracyPtr);
+        // } else {
+        // latitude = 0 ;
+        // longitude = 0 ;
+        // horizontalAccuracy = 0 ;
+        // }
+        // sprintf(jsonString,"{\"counter\" :  %d ,  \"accX\" :  %f , \"accY\" :  %f , \"accZ\" :  %f , \"latitude\" :  %d , \"longitude\" :  %d}", counter , accX , accY , accZ , latitude , longitude);
+        sprintf(jsonString,"{\"counter\" :  %d ,  \"accX\" :  %f , \"accY\" :  %f , \"accZ\" :  %f}", counter , accX , accY , accZ);
 
-        sprintf(jsonString,"{\"counter\" :  %d ,  \"accX\" :  %f , \"accY\" :  %f , \"accZ\" :  %f , \"diff\" :  %f }", counter , accX , accY , accZ , myClockDiffInSecond (clock2, clock1) );
         strcat( toPost , jsonString);
         strcat( toPost , ",");
         counter++;

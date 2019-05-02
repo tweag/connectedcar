@@ -25,8 +25,8 @@
     data: { values : myData },
     mark: "line",
     encoding: {
-    x: { field: "t", type: "quantitative" , scale: { domain: [0 , 1000]} },
-    y: { field: fieldData , type: "quantitative", scale: { domain: [-10 , 10 ]} }
+    x: { field: "t", type: "quantitative" , scale: { domain: [0 , 3000]} },
+    y: { field: fieldData , type: "quantitative", scale: { domain: [-15 , 15 ]} }
     // y: { field: fieldData , type: "quantitative"}
   }
   };
@@ -42,13 +42,13 @@
 </script>
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
   var timeout = setTimeout("location.reload(true);",1000);
   function resetTimeout() {
     clearTimeout(timeout);
     timeout = setTimeout("location.reload(true);",1000);
   }
-</script>
+</script> -->
 
 
 <br>

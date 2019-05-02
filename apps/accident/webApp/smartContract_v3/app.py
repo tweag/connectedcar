@@ -52,12 +52,19 @@ def accidentContract(participant , counterValue , latitudeValue , longitudeValue
 
 
 
-def AppendOnFile ( fileName , dataToAppend ) :
+def AppendOnFile1 ( fileName , dataToAppend ) :
     with open (fileName) as outfile:
         oldData = json.load(outfile)
         oldData.append(dataToAppend)
     with open (fileName, mode = 'w') as outfile:
-        outfile.write (json.dumps(oldData[-1000:]))
+        outfile.write (json.dumps(oldData[-10000:]))
+
+def AppendOnFile2 ( fileName , dataToAppend ) :
+    with open (fileName) as outfile:
+        oldData = json.load(outfile)
+        oldData = oldData + dataToAppend
+    with open (fileName, mode = 'w') as outfile:
+        outfile.write (json.dumps(oldData[-10000:]))
 
 
 DATA_FILENAME_HASHES = 'accident_hashes.json'
@@ -78,22 +85,28 @@ with open(DATA_FILENAME_ACCEL, mode='w', encoding='utf-8') as f:
 def index():
     data = request.get_json()
     if request.method == 'POST' and data :
+
+        AppendOnFile2 ( DATA_FILENAME_ACCEL , data )
+
         for i in range(len(data)):
-
             counterValue = data[i]['counter']
-            accX = data[i]['accX']
+            # accX = data[i]['accX']
             accY = data[i]['accY']
-            accZ = data[i]['accZ']
-            longitude = 0
+            # accZ = data[i]['accZ']
             latitude = 0
-            a = (accX**2 + accY**2 + accZ**2)**(0.5)
-            jsonToAppend = { 'counter' : counterValue , 'accX' : accX , 'accY' : accY , 'accZ' : accZ}
-            # jsonToAppend = a
-            AppendOnFile ( DATA_FILENAME_ACCEL , jsonToAppend )
+            longitude = 0
 
-            if a>10:
+            # latitude = data[i]['latitude']
+            # longitude = data[i]['longitude']
+
+            # a = (accX**2 + accY**2 + accZ**2)**(0.5)
+            # jsonToAppend = { 'counter' : counterValue , 'accX' : accX , 'accY' : accY , 'accZ' : accZ}
+            # jsonToAppend = a
+
+            if (accY > 10):
                 contract_address = accidentContract(participant , counterValue , latitude , longitude )
-                AppendOnFile ( DATA_FILENAME_HASHES , contract_address )
+                AppendOnFile1 ( DATA_FILENAME_HASHES , contract_address )
+                break
 
     with open (DATA_FILENAME_HASHES) as outfile:
         hashes = json.load(outfile)
@@ -126,7 +139,7 @@ def index():
 def myPlot():
 
     with open (DATA_FILENAME_ACCEL) as outfile:
-        data = json.load(outfile)[-1000:]
+        data = json.load(outfile)[-3000:]
 
     accXdata = [ {'t' : i , 'accX' : data[i]['accX'] } for i in range( len(data)) ]
     accYdata = [ {'t' : i , 'accY' : data[i]['accY'] } for i in range( len(data)) ]
