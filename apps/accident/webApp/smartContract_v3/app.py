@@ -140,7 +140,10 @@ def nyData():
 
     with open (DATA_FILENAME_ACCEL) as outfile:
         data = json.load(outfile)
-    return str(data)
+
+    myString = str (data)
+    myString = myString.replace("\'", "\"")
+    return myString
 
 
 

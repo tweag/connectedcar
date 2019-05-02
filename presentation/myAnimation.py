@@ -5,7 +5,7 @@ import seaborn as sns
 import json
 
 
-filename = "myData.json"
+filename = "data.json"
 with open(filename, 'r') as f:
         data = json.load(f)
 
@@ -24,5 +24,5 @@ for i in range(N-M):
     ims.append(myplot)
 
 im_ani = animation.ArtistAnimation(fig, ims, interval=10 , repeat = False , blit = True)
-im_ani.save('im.mp4')
-# plt.show()
+# im_ani.save('im.mp4')
+plt.show()
