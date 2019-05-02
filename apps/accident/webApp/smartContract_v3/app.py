@@ -103,7 +103,7 @@ def index():
             # jsonToAppend = { 'counter' : counterValue , 'accX' : accX , 'accY' : accY , 'accZ' : accZ}
             # jsonToAppend = a
 
-            if (accY > 10):
+            if (accY > 15):
                 contract_address = accidentContract(participant , counterValue , latitude , longitude )
                 AppendOnFile1 ( DATA_FILENAME_HASHES , contract_address )
                 break
@@ -127,6 +127,21 @@ def index():
     return render_template('index.html', hashes = hashes , isFinalisedList = isFinalisedList )
 
 
+
+
+
+
+
+
+# For loading data
+
+@app.route('/data.json', methods=['GET'])
+def myPlot():
+
+    with open (DATA_FILENAME_ACCEL) as outfile:
+        data = json.load(outfile)
+
+    return str(data)
 
 
 
