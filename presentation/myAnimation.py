@@ -19,7 +19,6 @@ plt.yticks([])
 plt.xticks(range(5))
 plt.tight_layout()
 
-
 N = len (data)
 M = 500
 accX = [ data[i]['accX']  for i in range(N)]
