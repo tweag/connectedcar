@@ -139,7 +139,7 @@ def index():
 def myPlot():
 
     with open (DATA_FILENAME_ACCEL) as outfile:
-        data = json.load(outfile)[-3000:]
+        data = json.load(outfile)[-500:]
 
     accXdata = [ {'t' : i , 'accX' : data[i]['accX'] } for i in range( len(data)) ]
     accYdata = [ {'t' : i , 'accY' : data[i]['accY'] } for i in range( len(data)) ]
