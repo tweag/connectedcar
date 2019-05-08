@@ -103,7 +103,7 @@ def index():
             # jsonToAppend = { 'counter' : counterValue , 'accX' : accX , 'accY' : accY , 'accZ' : accZ}
             # jsonToAppend = a
 
-            if (accY > 15 or accY < -15 ):
+            if (accY > 20 or accY < -20 ):
                 contract_address = accidentContract(participant , counterValue , latitude , longitude )
                 AppendOnFile1 ( DATA_FILENAME_HASHES , contract_address )
                 break

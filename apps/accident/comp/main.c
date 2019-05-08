@@ -4,7 +4,7 @@
 #include <curl/curl.h>
 
 // static const char Url[] = "http://192.168.2.3:5000";
-static const char Url[] = "http://52.47.194.59:5000/";
+static const char Url[] = "http://35.180.109.117:5000/";
 
 static const char FormatStr[] = "/sys/devices/i2c-0/0-0068/iio:device0/in_%s_%s";
 static const char AccType[]   = "accel";
@@ -101,7 +101,7 @@ COMPONENT_INIT
   // int32_t latitude; int32_t longitude;
   // int32_t horizontalAccuracy;
   // int32_t *latitudePtr = &latitude; int32_t *longitudePtr = &longitude; int32_t *horizontalAccuracyPtr = &horizontalAccuracy;
-
+  //
 
   double accX; double accY; double accZ;
   double *accXPtr = &accX; double *accYPtr = &accY; double *accZPtr = &accZ;
