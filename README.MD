@@ -1,3 +1,5 @@
+![title image](title.png)
+
 # Project Overview
 
 This project is a contribution to the data engineering challenge http://occ-challenge.strikingly.com/
