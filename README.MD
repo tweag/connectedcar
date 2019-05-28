@@ -1,71 +1,15 @@
+# Project Overview
 
-# Connected Car Challenge
+This project is a contribution to the data engineering challenge http://occ-challenge.strikingly.com/
 
-This text aims to briefly describe the analysis of the sample data designed for the _Connected Car Challenge_. You can look at the web page of the challenge [here](http://occ-challenge.strikingly.com/) and obtain the sample data [here](https://drive.google.com/file/d/1XIRQkLfjzRjmeDSB8zOmyuJn_C6R62ni/). The sample data is sent via _CAN buses_. [Here is a short intro](https://www.csselectronics.com/screen/page/reverse-engineering-can-bus-messages-with-wireshark/language/en).
+# Context
 
-## Cleaning the data
+The challenge was run by SierraWireless: Sierra Wireless Sierra Wireless is an IoT pioneer, and empowers businesses and industries to transform and thrive in the connected economy. "Sierra Wireless", "Legato" and "mangOH" are registered trademarks of Sierra Wireless.
 
-The data head looks like this:
+The challenge turned around the mangOH IoT platform: Sierra Wireless founded the mangOH open hardware community in 2015 to make it easy for developers to prototype their IoT wired, wireless, or sensor technology. What is the challenge about? The challenge is about using the mangOH IoT platform to record and transform sensor data from connected cars. 
 
-<div>
-<table border="0" class="dataframe">
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>(1497925598.604522)</td>
-      <td>can0</td>
-      <td>233#2F0FFF0C00D10100</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>(1497925598.604710)</td>
-      <td>can0</td>
-      <td>223#890513004A000081</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>(1497925598.606356)</td>
-      <td>can0</td>
-      <td>00E#20E3200004FF40E2</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>(1497925598.606391)</td>
-      <td>can0</td>
-      <td>228#40C040A1</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>(1497925598.608609)</td>
-      <td>can0</td>
-      <td>408#20</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+# What is our proposed contribution?
 
-The first column corresponds to the time steps when the CAN buses has send the samples. The third column corresponds to two parts, the one before `#` and the one after `#`. The number before `#` is the _id_ of the measurement (e.g. temperature, acceleration, turbulence) and the next number corresponds to the value of the measurement. Both numbers are in hexadecimal base.
+We use the embedded sensors to detect a car accident from acceleration data, we monitor the accelerometer on the X axis. A potential accident event is sent to a cloud database where it waits for validation. Validation of the accident is obtained when a dynamic lightweight consensus is reached. The consensus is reached when the mangOH device and two additional smartphones report that validate that they have witnessed an accident. The event is then logged into a data storage that is protected against alteration, in our Poc we have chosen to store it in an Ethereum blockchain.
 
-The total number of signals ids is 268 whilst there were 105 of them with significant information (variations):
-
-<img src="totalplotting.png"
-     alt=" "
-     style="float: center; margin-right: 10px;" />
-
-
-Notice that:
-
-1. The signals do not start at the same time. Some of them are registered from time 0 while there are the ones which starts at 350 second later (in 10 minutes). The same story for the endings
-
-2. Some of the signals are just a slight shift (in time) of each other.
-
-3. There are highly oscillating signals. We should put a low-pass filter on them to get a better picture about their evolution.
-
-
-## MangOH, Legato and AirVantage
-
-We have received a package of an IoT device called [MangOH](https://mangoh.io/). This device can connect to mobile network through a sim card. In our case, we have a sim from [Sierra Wireless](https://www.sierrawireless.com/) that enjoys from a coupled API called [AirVantage](https://www.sierrawireless.com/products-and-solutions/sims-connectivity-and-cloud-services/iot-cloud-platform/). Through this API we can continuously track the data concerning the sensors attached to the target device. Our MangOH was equipped with sensors showing GPS coordinates, light intensity, temperature, pressure, 3 directional accelerations and angular momentum (through a gyroscope). As an example, you can see in the following some sensors data that are received from our MangOH:
-
-<img src="AirVantage.png"
-     alt=" "
-     style="float: center; margin-right: 10px;" />
+We have made a live demo of this with a toy car that crashes into a wall. You can find the video [here](https://drive.google.com/file/d/10D3HfoHHuh5RVw9wfgx3e3tmWRSEgqRH/view?usp=sharing).
